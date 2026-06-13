@@ -1,0 +1,41 @@
+workflows:
+  build-android-apk:
+    name: Build Android APK (Gradle)
+    max_build_duration: 120
+    environment:
+      java: openjdk11
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools;33.0.0
+          - platforms;android-33
+      vars:
+        # To sign the APK on Codemagic, add these as encrypted environment variables
+        # in the Codemagic UI and leave the values empty here.
+        # KEYSTORE_BASE64: Encrypted(...)
+        # KEYSTORE_PASSWORD: Encrypted(...)
+        # KEY_ALIAS: your-key-alias
+        # KEY_PASSWORD: Encrypted(...)
+    scripts:
+      - name: Prepare keystore (optional)
+        script: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "Decoding keystore from KEYSTORE_BASE64"
+            mkdir -p android/app || true
+            echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
+          else
+            echo "No KEYSTORE_BASE64 provided; building unsigned APK"
+          fi
+      - name: Ensure Gradle wrapper executable
+        script: |
+          if [ -f ./gradlew ]; then chmod +x ./gradlew; fi
+      - name: Build release APK
+        script: |
+          if [ -f ./gradlew ]; then
+            ./gradlew :app:assembleRelease --no-daemon
+          else
+            gradle :app:assembleRelease --no-daemon
+          fi
+    artifacts:
+      - app/build/outputs/**/*.apk
