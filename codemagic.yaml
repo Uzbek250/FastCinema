@@ -1,41 +1,31 @@
 workflows:
-  build-android-apk:
-    name: Build Android APK (Gradle)
-    max_build_duration: 120
+  android-apk-workflow:
+    name: FastCinema Android APK Build
+    max_build_duration: 60
+    instance_type: linux_x86_64
     environment:
-      java: openjdk11
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools;33.0.0
-          - platforms;android-33
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - name: default
       vars:
-        # To sign the APK on Codemagic, add these as encrypted environment variables
-        # in the Codemagic UI and leave the values empty here.
-        # KEYSTORE_BASE64: Encrypted(...)
-        # KEYSTORE_PASSWORD: Encrypted(...)
-        # KEY_ALIAS: your-key-alias
-        # KEY_PASSWORD: Encrypted(...)
+        PACKAGE_NAME: "com.example.fastcinema"
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
     scripts:
-      - name: Prepare keystore (optional)
+      - name: Set up local.properties
         script: |
-          if [ -n "$KEYSTORE_BASE64" ]; then
-            echo "Decoding keystore from KEYSTORE_BASE64"
-            mkdir -p android/app || true
-            echo "$KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
-          else
-            echo "No KEYSTORE_BASE64 provided; building unsigned APK"
-          fi
-      - name: Ensure Gradle wrapper executable
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
+      - name: Get Flutter packages
         script: |
-          if [ -f ./gradlew ]; then chmod +x ./gradlew; fi
-      - name: Build release APK
+          flutter packages pub get
+      - name: Build Android APK
         script: |
-          if [ -f ./gradlew ]; then
-            ./gradlew :app:assembleRelease --no-daemon
-          else
-            gradle :app:assembleRelease --no-daemon
-          fi
+          flutter build apk --debug
     artifacts:
-      - app/build/outputs/**/*.apk
+      - build/app/outputs/flutter-apk/*.apk
