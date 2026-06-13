@@ -1,43 +1,28 @@
- name: Build
-
+name: Build
 on:
   push:
-    branches: [ main, master ]
+    branches: [main]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
-
-      - name: ZIP ochish
-        run: |
-          unzip FastCinema_source.zip
-          ls -la
-
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
       - uses: android-actions/setup-android@v3
-
-      - name: Gradle wrapper
+      - name: Setup and Build
         run: |
+          unzip FastCinema_source.zip || true
           cd FastCinema
           curl -fsSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o g.zip
           unzip -q g.zip
           ./gradle-8.6/bin/gradle wrapper
           chmod +x gradlew
-
-      - name: Build APK
-        run: |
-          cd FastCinema
           ./gradlew assembleDebug --no-daemon
-
       - uses: actions/upload-artifact@v4
         with:
-          name: FastCinema-APK
-          path: FastCinema/app/build/outputs/apk/debug/app-debug.apk
+          name: APK
+          path: FastCinema/app/build/outputs/apk/debug/app-debug.apk 
