@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Kino plyonkasi belgisi -->
+    <path
+        android:fillColor="#00D4FF"
+        android:pathData="M30,28 L78,28 L78,80 L30,80 Z" />
+    <path
+        android:fillColor="#0D0D0D"
+        android:pathData="M44,44 L70,54 L44,64 Z" />
+    <!-- Kino chiziqchalar -->
+    <path android:fillColor="#0D0D0D"
+        android:pathData="M30,30 L36,30 L36,36 L30,36 Z"/>
+    <path android:fillColor="#0D0D0D"
+        android:pathData="M72,30 L78,30 L78,36 L72,36 Z"/>
+    <path android:fillColor="#0D0D0D"
+        android:pathData="M30,72 L36,72 L36,78 L30,78 Z"/>
+    <path android:fillColor="#0D0D0D"
+        android:pathData="M72,72 L78,72 L78,78 L72,78 Z"/>
+</vector>

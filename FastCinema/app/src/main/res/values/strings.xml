@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FastCinema</string>
+    <string name="url_hint">Sayt manzili yoki qidirish…</string>
+    <string name="video_found">Video topildi</string>
+    <string name="play_in_app">Ko\'rish</string>
+    <string name="download">Yuklash</string>
+    <string name="cast_to_tv">TV</string>
+    <string name="ad_blocked">ta reklama bloklandi</string>
+    <string name="download_started">Yuklash boshlandi</string>
+    <string name="cast_sent">TV ga yuborildi</string>
+    <string name="no_cast_connection">TV ga ulanmagan</string>
+    <string name="error_loading">Yuklanmadi. Internetni tekshiring.</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Asosiy ranglar -->
+    <color name="cyan_primary">#00D4FF</color>
+    <color name="purple_secondary">#7C3AED</color>
+    <color name="green_cast">#059669</color>
+    <color name="red_error">#FF4444</color>
+
+    <!-- Fon ranglari -->
+    <color name="bg_dark">#0D0D0D</color>
+    <color name="bg_card">#1A1A2E</color>
+    <color name="bg_panel">#141428</color>
+
+    <!-- Matn ranglari -->
+    <color name="text_primary">#E0E0E0</color>
+    <color name="text_secondary">#888888</color>
+    <color name="text_hint">#555555</color>
+</resources>
