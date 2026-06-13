@@ -1,12 +1,9 @@
-name: FastCinema APK Build
+ name: FastCinema APK Build
 
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -25,14 +22,19 @@ jobs:
       - name: Android SDK o'rnatish
         uses: android-actions/setup-android@v3
 
-      - name: Gradle 8.6 o'rnatish
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '8.6'
-
-      - name: Gradle wrapper yaratish
+      - name: Gradle wrapper fayllarini yaratish
         run: |
-          gradle wrapper --gradle-version=8.6
+          mkdir -p gradle/wrapper
+          cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
+          distributionBase=GRADLE_USER_HOME
+          distributionPath=wrapper/dists
+          distributionUrl=https\://services.gradle.org/distributions/gradle-8.6-bin.zip
+          zipStoreBase=GRADLE_USER_HOME
+          zipStorePath=wrapper/dists
+          EOF
+          curl -fsSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o gradle-8.6.zip
+          unzip -q gradle-8.6.zip
+          ./gradle-8.6/bin/gradle wrapper
           chmod +x gradlew
 
       - name: Debug APK build
@@ -44,6 +46,3 @@ jobs:
           name: FastCinema-debug-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
-
-      - name: Build muvaffaqiyatli
-        run: echo "APK tayyor!"
