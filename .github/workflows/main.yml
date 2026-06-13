@@ -1,0 +1,48 @@
+name: FastCinema APK Build
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodni olish
+        uses: actions/checkout@v4
+
+      - name: Java 17 o'rnatish
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Android SDK o'rnatish
+        uses: android-actions/setup-android@v3
+
+      - name: Gradle cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+
+      - name: Gradle ruxsat
+        run: chmod +x gradlew
+
+      - name: Debug APK build
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: APK saqlash
+        uses: actions/upload-artifact@v4
+        with:
+          name: FastCinema-debug-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Build muvaffaqiyatli
+        run: echo "✅ APK tayyor!"
