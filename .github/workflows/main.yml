@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,17 +25,15 @@ jobs:
       - name: Android SDK o'rnatish
         uses: android-actions/setup-android@v3
 
-      - name: Gradle cache
-        uses: actions/cache@v4
+      - name: Gradle 8.6 o'rnatish
+        uses: gradle/actions/setup-gradle@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: gradle-
+          gradle-version: '8.6'
 
-      - name: Gradle ruxsat
-        run: chmod +x gradlew
+      - name: Gradle wrapper yaratish
+        run: |
+          gradle wrapper --gradle-version=8.6
+          chmod +x gradlew
 
       - name: Debug APK build
         run: ./gradlew assembleDebug --no-daemon --stacktrace
@@ -45,4 +46,4 @@ jobs:
           retention-days: 30
 
       - name: Build muvaffaqiyatli
-        run: echo "✅ APK tayyor!"
+        run: echo "APK tayyor!"
