@@ -17,6 +17,8 @@ jobs:
         run: |
           unzip FastCinema_source.zip || true
           cd FastCinema
+          sed -i 's/android:icon="@mipmap\/ic_launcher"//g' app/src/main/AndroidManifest.xml
+          sed -i 's/android:roundIcon="@mipmap\/ic_launcher_round"//g' app/src/main/AndroidManifest.xml
           curl -fsSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o g.zip
           unzip -q g.zip
           ./gradle-8.6/bin/gradle wrapper
@@ -25,4 +27,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: APK
-          path: FastCinema/app/build/outputs/apk/debug/app-debug.apk 
+          path: FastCinema/app/build/outputs/apk/debug/app-debug.apk
