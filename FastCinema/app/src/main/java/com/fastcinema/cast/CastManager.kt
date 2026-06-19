@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.android.gms.cast.framework.*
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 import com.google.android.gms.cast.*
+import com.google.android.gms.common.images.WebImage
 
 /**
  * CastManager — Google Cast orqali TV ga uzatish
@@ -74,13 +75,8 @@ class CastManager(private val context: Context) {
             .setMetadata(mediaMetadata)
             .build()
 
-        val mediaLoadRequestData = com.google.android.gms.cast.framework.media.MediaLoadRequestData
-            .Builder()
-            .setMediaInfo(mediaInfo)
-            .setAutoplay(true)
-            .build()
-
-        session.remoteMediaClient?.load(mediaLoadRequestData)
+        // Use the simpler MediaInfo-based load for broader compatibility
+        session.remoteMediaClient?.load(mediaInfo)
         Log.d(TAG, "📺 TV ga yuborildi: $title")
     }
 
