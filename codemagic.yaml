@@ -8,7 +8,7 @@ workflows:
     scripts:
       - name: Build Android APK
         script: |
-          unzip FastCinema_source_v2.zip || true
+          unzip FastCinema_source_v3.zip || true
           cd FastCinema
           curl -fsSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o g.zip
           unzip -q g.zip
