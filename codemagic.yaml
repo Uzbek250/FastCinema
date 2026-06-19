@@ -1,15 +1,16 @@
 workflows:
-  android-apk-workflow:
-    name: FastCinema Android APK Build
-    max_build_duration: 60
-    instance_type: mac_mini_m2
-    environment:
-      java: 17
+  android-workflow:
+    name: FastCinema Android
+    instance_type: mac_mini_m1
     scripts:
-      - name: Build Android APK
+      - name: Unzip va Build
         script: |
+          unzip FastCinema_source_v2.zip
           cd FastCinema
+          curl -fsSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o g.zip
+          unzip -q g.zip
+          ./gradle-8.6/bin/gradle wrapper
           chmod +x gradlew
-          ./gradlew assembleRelease
+          ./gradlew assembleDebug --no-daemon
     artifacts:
-      - FastCinema/app/build/outputs/apk/release/*.apk                                                                                  - FastCinema/app/build/outputs/apk/release/*.apk
+      - FastCinema/app/build/outputs/apk/debug/app-debug.apk
